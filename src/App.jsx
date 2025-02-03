@@ -11,12 +11,22 @@ function App() {
     alert(result.sum);
   };
 
+
+  //tests
+  // addNumbers("1\n2,3,4,5,6\n5");
+
+  function splitNumbers(numbers, delimiters) {
+    const delimiterRegex = new RegExp(`[${delimiters.join("")}]`);
+    return numbers.split(delimiterRegex).map((str) => parseInt(str));
+  }
   function addNumbers(value) {
     //empty string
     if (value.length === 0 || value.trim() === "") {
       return 0;
     }
-    const list = value.split(",");
+    //get delimeter
+    const list = splitNumbers(value, [",", "\n"]);
+    debugger;
     const totalNumbers = list.length;
     let sum = 0;
     for (let i = 0; i < totalNumbers; i++) {
