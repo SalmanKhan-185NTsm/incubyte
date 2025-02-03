@@ -56,7 +56,10 @@ function addNumbers(numbers) {
       if (num < 0) {
         negativeNumbersList.push(num);
       }
-      sum += Number(list[i]);
+      if (num > 1000) {
+        continue;
+      }
+      sum += num;
     }
     console.log(sum);
     if (negativeNumbersList.length > 0) {
@@ -95,4 +98,8 @@ test("input //;\\n1;2;-13 expect error", () => {
   expect(addNumbers("//;\\n1;2;-13")).toBe(
     "Negative numbers are not allowed: -13"
   );
+});
+
+test("input //***\n1***2***3", () => {
+  expect(addNumbers("//***\n1***2***3")).toBe(6);
 });
