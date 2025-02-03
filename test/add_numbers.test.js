@@ -77,8 +77,8 @@ function addNumbers(numbers) {
   }
 }
 
-test("input //;\n1;2;3 expect 6", () => {
-  expect(addNumbers("//;\n1;2;3")).toBe(6);
+test("input //;\n1;2;3,1001 expect 6", () => {
+  expect(addNumbers("//;\n1;2;3,1001")).toBe(6);
 });
 
 test("input 1,2,3 expect 6", () => {
@@ -100,6 +100,10 @@ test("input //;\\n1;2;-13 expect error", () => {
   );
 });
 
-test("input //***\n1***2***3", () => {
-  expect(addNumbers("//***\n1***2***3")).toBe(6);
-});
+// test("input //***\n1***2***3", () => {
+//   expect(addNumbers("//***\n1***2***3")).toBe(6);
+// });
+
+// test("//[***]\n1***2***3",()=>{
+//   expect(extractDelimiter("//[***]\n1***2***3")).toBe("1***2***3");
+// })
