@@ -15,7 +15,7 @@ function App() {
     const totalNumbers = list.length;
     let sum = 0;
     for (let i = 0; i < totalNumbers; i++) {
-      sum += list[i];
+      sum += Number(list[i]);
     }
     return sum;
   }
