@@ -20,7 +20,6 @@ export function removeCustomDelimiter(pattern, stringValue) {
 }
 
 export function cleanInput(input) {
-  // Replace escaped newline characters with actual newline characters
   return input.replace(/\\n/g, "\n");
 }
 
@@ -48,7 +47,7 @@ export function addNumbers(numbers) {
         stringValue
       );
     }
-    // debugger;
+
     const list = splitNumbers(stringValue, supportedDelimiters);
     const totalNumbers = list.length;
     let sum = 0;
@@ -62,17 +61,17 @@ export function addNumbers(numbers) {
     }
     console.log(sum);
     if (negativeNumbersList.length > 0) {
-      return (
-        "Negative numbers are not allowed," + negativeNumbersList.join(", ")
-      );
-      // throw new Error(
-      //   `Negative numbers are not allowed: ${negativeNumbersList.join(", ")}`
+      // return (
+      //   "Negative numbers are not allowed," + negativeNumbersList.join(", ")
       // );
+      throw new Error(
+        `Negative numbers are not allowed: ${negativeNumbersList.join(", ")}`
+      );
     }
     return sum;
   } catch (error) {
     console.error("An error occurred", error.message);
-    return 0;
+    return error.message;
   }
 }
 
@@ -84,10 +83,13 @@ function App() {
     const inputValue = inputRef.current.value;
     const result = addNumbers(inputValue);
     console.log("sum is", result);
-    alert(result);
+    // alert(result);
     setResult(result);
   };
-
+  const onReset = () => {
+    setResult(null);
+    inputRef.current.value = "";
+  };
   //tests
   // addNumbers("1\n2,3,4,5,6\n5");
   // addNumbers("//;\n1\n2;3;4;5;6\n5");
@@ -108,6 +110,9 @@ function App() {
         {result !== null && (
           <div className="result">
             <h2>Result is {result}</h2>
+            <button className="btn" onClick={onReset}>
+              Reset
+            </button>
           </div>
         )}
       </div>
