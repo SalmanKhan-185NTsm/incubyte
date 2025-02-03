@@ -1,6 +1,4 @@
-import { useRef, useState } from "react";
-import "./App.css";
-export function extractDelimiter(input) {
+function extractDelimiter(input) {
   const regex = /^\/\/(.+)\n/;
   const match = input.match(regex);
   if (match) {
@@ -9,22 +7,22 @@ export function extractDelimiter(input) {
   return null;
 }
 
-export function splitNumbers(numbers, delimiters) {
+function splitNumbers(numbers, delimiters) {
   const delimiterRegex = new RegExp(`[${delimiters.join("")}]`);
   return numbers.split(delimiterRegex).map((str) => parseInt(str));
 }
 
-export function removeCustomDelimiter(pattern, stringValue) {
+function removeCustomDelimiter(pattern, stringValue) {
   const temp = stringValue.replace(pattern, "");
   return temp;
 }
 
-export function cleanInput(input) {
+function cleanInput(input) {
   // Replace escaped newline characters with actual newline characters
   return input.replace(/\\n/g, "\n");
 }
 
-export function addNumbers(numbers) {
+function addNumbers(numbers) {
   try {
     //empty string
     if (numbers.length === 0 || numbers.trim() === "") {
@@ -33,10 +31,10 @@ export function addNumbers(numbers) {
 
     //list of delimeters
     const supportedDelimiters = [",", "\n"];
+    // debugger;
 
-    //remove escape characters
     numbers = cleanInput(numbers);
-
+    // debugger;
     //check if there is custorm delimeter
     const customDelimiter = extractDelimiter(numbers);
 
@@ -62,57 +60,39 @@ export function addNumbers(numbers) {
     }
     console.log(sum);
     if (negativeNumbersList.length > 0) {
-      return (
-        "Negative numbers are not allowed," + negativeNumbersList.join(", ")
-      );
-      // throw new Error(
-      //   `Negative numbers are not allowed: ${negativeNumbersList.join(", ")}`
+      // alert(
+      //   "Negative numbers are not allowed," + negativeNumbersList.join(", ")
       // );
+      throw new Error(
+        `Negative numbers are not allowed: ${negativeNumbersList.join(", ")}`
+      );
     }
     return sum;
   } catch (error) {
     console.error("An error occurred", error.message);
-    return 0;
+    return error.message;
   }
 }
 
-function App() {
-  const [result, setResult] = useState(null);
-  const inputRef = useRef();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const inputValue = inputRef.current.value;
-    const result = addNumbers(inputValue);
-    console.log("sum is", result);
-    alert(result);
-    setResult(result);
-  };
+test("input //;\n1;2;3 expect 6", () => {
+  expect(addNumbers("//;\n1;2;3")).toBe(6);
+});
 
-  //tests
-  // addNumbers("1\n2,3,4,5,6\n5");
-  // addNumbers("//;\n1\n2;3;4;5;6\n5");
-  // addNumbers("//;\n1;2;3");
-  return (
-    <>
-      <div className="card">
-        <h2>String Calculator</h2>
-        <form className="form-container" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="form-control"
-            name="string_numbers"
-            ref={inputRef}
-          />
-          <button className="btn"> Calculate </button>
-        </form>
-        {result !== null && (
-          <div className="result">
-            <h2>Result is {result}</h2>
-          </div>
-        )}
-      </div>
-    </>
+test("input 1,2,3 expect 6", () => {
+  expect(addNumbers("1,2,3")).toBe(6);
+});
+
+test("input 1,2,3\\n5 expect 11", () => {
+  expect(addNumbers("1,2,3\\n5")).toBe(11);
+});
+test("input 1,2,3\n5 expect 11", () => {
+  expect(addNumbers("1,2,3\n5")).toBe(11);
+});
+test("input //;\n1;2;3 expect 6", () => {
+  expect(addNumbers("//;\\n1;2;3")).toBe(6);
+});
+test("input //;\\n1;2;-13 expect error", () => {
+  expect(addNumbers("//;\\n1;2;-13")).toBe(
+    "Negative numbers are not allowed: -13"
   );
-}
-
-export default App;
+});
