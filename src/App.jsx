@@ -12,18 +12,17 @@ function App() {
   };
 
   function addNumbers(value) {
-    //test is string is empty
-    if (value.length === 0 || value === "") {
-      return { result: false, message: "Cannot Add empty string" };
+    //empty string
+    if (value.length === 0 || value.trim() === "") {
+      return 0;
     }
-
     const list = value.split(",");
     const totalNumbers = list.length;
     let sum = 0;
     for (let i = 0; i < totalNumbers; i++) {
       sum += Number(list[i]);
     }
-    return { result: sum };
+    return sum;
   }
   return (
     <>
